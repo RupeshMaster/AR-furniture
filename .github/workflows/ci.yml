@@ -1,0 +1,72 @@
+name: Verify and deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Install test PocketBase
+        run: |
+          curl -fL https://github.com/pocketbase/pocketbase/releases/download/v0.40.4/pocketbase_0.40.4_linux_amd64.zip -o /tmp/pocketbase.zip
+          unzip /tmp/pocketbase.zip pocketbase -d /tmp
+          chmod +x /tmp/pocketbase
+      - run: npm run test:backend
+        env:
+          PB_BINARY: /tmp/pocketbase
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          VITE_POCKETBASE_URL: ''
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-test-results
+          path: test-results/
+
+  deploy:
+    needs: verify
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: production-deployment
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci && npm run build
+        env:
+          VITE_POCKETBASE_URL: ${{ vars.POCKETBASE_PUBLIC_URL }}
+          VITE_STORE_SLUG: ${{ vars.STORE_SLUG }}
+      - name: Deploy release to configured VPS
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_TARGET: ${{ secrets.DEPLOY_TARGET }}
+          PUBLIC_URL: ${{ vars.POCKETBASE_PUBLIC_URL }}
+        run: |
+          test -n "$PUBLIC_URL"
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          tar -czf /tmp/roomly-release.tgz dist backend/pb_hooks backend/pb_migrations
+          ssh "$DEPLOY_TARGET" "mkdir -p /srv/roomly/releases/$GITHUB_SHA"
+          scp /tmp/roomly-release.tgz "$DEPLOY_TARGET:/srv/roomly/releases/$GITHUB_SHA/release.tgz"
+          ssh "$DEPLOY_TARGET" "set -eu; tar -xzf /srv/roomly/releases/$GITHUB_SHA/release.tgz -C /srv/roomly/releases/$GITHUB_SHA; ln -sfn /srv/roomly/releases/$GITHUB_SHA /srv/roomly/current.next; mv -Tf /srv/roomly/current.next /srv/roomly/current; sudo systemctl restart roomly-pocketbase; sleep 2; curl --fail http://127.0.0.1:8090/api/health"

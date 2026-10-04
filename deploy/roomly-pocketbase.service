@@ -1,0 +1,20 @@
+[Unit]
+Description=Roomly PocketBase
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=roomly
+Group=roomly
+WorkingDirectory=/srv/roomly
+EnvironmentFile=-/etc/roomly/pocketbase.env
+ExecStart=/srv/roomly/bin/pocketbase serve --http=127.0.0.1:8090 --dir=/srv/roomly/shared/pb_data --migrationsDir=/srv/roomly/current/backend/pb_migrations --hooksDir=/srv/roomly/current/backend/pb_hooks --dev=false --automigrate=false --origins=https://roomly.example.com
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0027
+
+[Install]
+WantedBy=multi-user.target

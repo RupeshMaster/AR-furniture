@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+backend/pocketbase
+backend/pocketbase.exe
+backend/pb_data/
+backend/pb_hooks/types.d.ts
+test-results/
+playwright-report/
+*.log
