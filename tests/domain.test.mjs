@@ -39,6 +39,22 @@ test("lead validation accepts contact methods and rejects invalid or oversized i
   );
 });
 test("product validation disallows impossible dimensions and ambiguous swatches", () => {
+  assert.equal(demoProducts.length, 9);
+  assert.deepEqual(
+    new Set(demoProducts.map((product) => product.category)),
+    new Set(["Sofa", "Chair", "Table", "Storage", "Bed", "Other"]),
+  );
+  for (const product of demoProducts) {
+    assert.ok(
+      product.image &&
+        product.model &&
+        product.sku &&
+        product.material &&
+        product.care &&
+        product.leadTime,
+      `${product.name} needs complete catalog metadata`,
+    );
+  }
   assert.doesNotThrow(() => demoProducts.forEach(validateProduct));
   assert.throws(() => validateProduct({ ...demoProducts[0], width: 0 }));
   assert.throws(() => validateProduct({ ...demoProducts[0], price: -1 }));

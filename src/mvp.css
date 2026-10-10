@@ -295,6 +295,12 @@ textarea {
   background: #edf1e8;
   border-radius: 6px;
 }
+.product-specs {
+  margin-top: 18px;
+}
+.product-specs strong {
+  line-height: 1.45;
+}
 .section-label,
 .delivery-card strong,
 .delivery-card span,

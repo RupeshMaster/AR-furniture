@@ -31,6 +31,11 @@ export const demoProducts = [
     model: "/models/cloud-sofa.glb",
     image: "/images/sofa.svg",
     variants: defaultVariants,
+    room: "Living room",
+    sku: "NLH-CLD-03",
+    material: "Performance linen upholstery · kiln-dried oak frame",
+    care: "Spot clean with a soft, damp cloth. Rotate cushions monthly.",
+    leadTime: "4–6 weeks",
   },
   {
     id: "arcchair0000001",
@@ -45,6 +50,12 @@ export const demoProducts = [
     model: "/models/arc-chair.glb",
     image: "/images/chair.svg",
     variants: defaultVariants,
+    room: "Living room",
+    sku: "NLH-ARC-01",
+    material: "Textured cotton blend · solid ash legs",
+    care: "Vacuum upholstery gently. Blot spills; do not rub.",
+    leadTime: "7–10 working days",
+    availability: "In stock",
   },
   {
     id: "linetable000001",
@@ -67,18 +78,234 @@ export const demoProducts = [
         variantName: "Walnut",
       },
     ],
+    room: "Living room",
+    sku: "NLH-LNE-CT",
+    material: "Solid white oak · low-sheen hardwax oil",
+    care: "Wipe with a dry cloth. Use coasters for hot or wet items.",
+    leadTime: "5–7 working days",
+    availability: "In stock",
+  },
+  {
+    id: "covelove0000001",
+    name: "Cove Loveseat",
+    category: "Sofa",
+    price: 1890,
+    width: 178,
+    depth: 92,
+    height: 79,
+    description:
+      "A softer, smaller companion for apartments and quiet corners. Cove keeps the deep comfort of a full sofa in a more considered footprint.",
+    model: "/models/cove-loveseat.glb",
+    image: "/images/loveseat.svg",
+    variants: [
+      {
+        name: "Sand",
+        color: "#cdbb9e",
+        material: "Upholstery",
+        variantName: "Sand",
+      },
+      {
+        name: "Fern",
+        color: "#68786b",
+        material: "Upholstery",
+        variantName: "Fern",
+      },
+      {
+        name: "Clay",
+        color: "#a96855",
+        material: "Upholstery",
+        variantName: "Clay",
+      },
+    ],
+    room: "Living room",
+    sku: "NLH-COV-02",
+    material: "Washed linen blend · solid oak feet",
+    care: "Vacuum weekly using the upholstery attachment. Professional clean as needed.",
+    leadTime: "4–6 weeks",
+  },
+  {
+    id: "foldtable000001",
+    name: "Fold Dining Table",
+    category: "Table",
+    price: 1420,
+    width: 160,
+    depth: 90,
+    height: 75,
+    description:
+      "A generous everyday table with a quietly sculpted edge. Sized for four comfortably and six when dinner runs late.",
+    model: "/models/fold-dining-table.glb",
+    image: "/images/dining-table.svg",
+    variants: [
+      {
+        name: "Natural oak",
+        color: "#b98b5d",
+        material: "Wood",
+        variantName: "Natural oak",
+      },
+      {
+        name: "Smoked oak",
+        color: "#715340",
+        material: "Wood",
+        variantName: "Smoked oak",
+      },
+      {
+        name: "Black",
+        color: "#292c29",
+        material: "Wood",
+        variantName: "Black",
+      },
+    ],
+    room: "Dining room",
+    sku: "NLH-FLD-06",
+    material: "Solid oak · water-based matte finish",
+    care: "Wipe spills promptly. Avoid abrasive cleaners and prolonged moisture.",
+    leadTime: "3–5 weeks",
+  },
+  {
+    id: "lineasideboard1",
+    name: "Linea Sideboard",
+    category: "Storage",
+    price: 2190,
+    width: 160,
+    depth: 45,
+    height: 78,
+    description:
+      "Low, architectural storage for dinnerware, records, or the things you want close but out of sight. Soft-close doors keep the front beautifully quiet.",
+    model: "/models/linea-sideboard.glb",
+    image: "/images/sideboard.svg",
+    variants: [
+      {
+        name: "Walnut",
+        color: "#694532",
+        material: "Wood",
+        variantName: "Walnut",
+      },
+      {
+        name: "White oak",
+        color: "#b68b60",
+        material: "Wood",
+        variantName: "White oak",
+      },
+      { name: "Ink", color: "#252b30", material: "Wood", variantName: "Ink" },
+    ],
+    room: "Dining room",
+    sku: "NLH-LIN-SB",
+    material: "Wood veneer · solid wood edge band · soft-close doors",
+    care: "Dust with a soft cloth. Use a lightly damp cloth for marks.",
+    leadTime: "5–7 weeks",
+  },
+  {
+    id: "nookbed00000001",
+    name: "Nook Platform Bed",
+    category: "Bed",
+    price: 2480,
+    width: 168,
+    depth: 212,
+    height: 100,
+    description:
+      "A calm, low platform with a softly padded headboard. Nook turns the bedroom into a place to land at the end of the day.",
+    model: "/models/nook-bed.glb",
+    image: "/images/bed.svg",
+    variants: defaultVariants,
+    room: "Bedroom",
+    sku: "NLH-NOK-QN",
+    material: "Linen upholstery · solid ash platform",
+    care: "Vacuum headboard gently. Wipe platform with a dry cloth.",
+    leadTime: "6–8 weeks",
+    delivery:
+      "Demo estimate: 6–8 weeks. Assembly required. Fits a 152 × 203 cm queen mattress; mattress and bedding are not included.",
+  },
+  {
+    id: "driftottoman001",
+    name: "Drift Ottoman",
+    category: "Other",
+    price: 390,
+    width: 76,
+    depth: 58,
+    height: 42,
+    description:
+      "A useful extra seat, a place to rest your feet, or a soft landing for a tray. Drift makes itself at home wherever you put it.",
+    model: "/models/drift-ottoman.glb",
+    image: "/images/ottoman.svg",
+    variants: defaultVariants,
+    room: "Living room",
+    sku: "NLH-DRF-OT",
+    material: "Textured cotton blend · beech feet",
+    care: "Spot clean only. Rotate to keep the fill even.",
+    leadTime: "5–7 working days",
+    availability: "In stock",
+  },
+  {
+    id: "reedconsole0001",
+    name: "Reed Entry Console",
+    category: "Storage",
+    price: 980,
+    width: 120,
+    depth: 36,
+    height: 78,
+    description:
+      "A slim console for the entryway, hallway, or the wall that needs one good line. Two drawers keep daily essentials within reach.",
+    model: "/models/reed-console.glb",
+    image: "/images/console.svg",
+    variants: [
+      { name: "Oak", color: "#b68b60", material: "Wood", variantName: "Oak" },
+      {
+        name: "Walnut",
+        color: "#694532",
+        material: "Wood",
+        variantName: "Walnut",
+      },
+    ],
+    room: "Entryway",
+    sku: "NLH-RED-CN",
+    material: "Wood veneer · brushed brass pulls",
+    care: "Dust with a soft cloth. Avoid placing wet items directly on top.",
+    leadTime: "7–10 working days",
+    availability: "In stock",
   },
 ].map((p) => ({
-  ...p,
   store: demoStore.id,
   currency: "USD",
   published: true,
   availability: "Made to order",
   sample: true,
   updated: "2026-10-04T00:00:00Z",
-  delivery: "Ask the showroom for current delivery times.",
+  delivery: `Demo estimate: ${p.leadTime}. The showroom will confirm availability, delivery charges, and access requirements before accepting a reservation.`,
   usdz: "",
+  ...p,
 }));
+
+export const productMetadataLimits = {
+  room: 80,
+  sku: 40,
+  material: 240,
+  care: 500,
+  leadTime: 80,
+};
+
+// Upgrade an existing browser catalog without replacing edits or resurrecting
+// deleted sample products. Remember newly introduced sample IDs after merging.
+export function mergeDemoCatalog(existing, seededIds) {
+  const legacyIds = ["cloudsofa000001", "arcchair0000001", "linetable000001"];
+  const known = new Set(seededIds || (existing ? legacyIds : []));
+  const defaults = new Map(demoProducts.map((p) => [p.id, p]));
+  const products = (existing || []).map((p) => {
+    const seed = defaults.get(p.id);
+    if (!seed || !p.sample) return p;
+    const missing = Object.fromEntries(
+      Object.keys(productMetadataLimits)
+        .filter((key) => !Object.hasOwn(p, key))
+        .map((key) => [key, seed[key]]),
+    );
+    return { ...p, ...missing };
+  });
+  const present = new Set(products.map((p) => p.id));
+  for (const p of demoProducts) {
+    if (!known.has(p.id) && !present.has(p.id)) products.push(p);
+    known.add(p.id);
+  }
+  return { products, seededIds: [...known] };
+}
 
 export const money = (price, currency = "USD") =>
   new Intl.NumberFormat("en-US", {
@@ -214,6 +441,9 @@ export function validateProduct(p) {
       throw new Error("Dimensions must be between 0 and 1,000 cm.");
   if (!Array.isArray(p.variants) || p.variants.length > 12)
     throw new Error("Use up to 12 finishes.");
+  for (const [key, limit] of Object.entries(productMetadataLimits))
+    if (p[key] != null && (typeof p[key] !== "string" || p[key].length > limit))
+      throw new Error(`${key} must be text of at most ${limit} characters.`);
   const names = new Set();
   for (const v of p.variants) {
     if (

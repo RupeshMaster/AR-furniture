@@ -965,6 +965,11 @@ function ProductEditor({ initial, store, onClose, onSaved }) {
     height: 80,
     availability: "Made to order",
     delivery: "",
+    room: "Living room",
+    sku: "",
+    material: "",
+    care: "",
+    leadTime: "",
     published: false,
     variants: [],
     ...initial,
@@ -1138,12 +1143,70 @@ function ProductEditor({ initial, store, onClose, onSaved }) {
               </select>
             </label>
             <label>
+              Lead time
+              <input
+                value={draft.leadTime}
+                onChange={(e) => set("leadTime", e.target.value)}
+                maxLength={80}
+                placeholder="e.g. 4–6 weeks"
+              />
+            </label>
+            <label>
               Delivery information
               <textarea
                 value={draft.delivery}
                 onChange={(e) => set("delivery", e.target.value)}
                 rows={2}
                 maxLength={1000}
+              />
+            </label>
+            <div className="form-two-col">
+              <label>
+                Room
+                <select
+                  value={draft.room}
+                  onChange={(e) => set("room", e.target.value)}
+                >
+                  {[
+                    "Living room",
+                    "Dining room",
+                    "Bedroom",
+                    "Entryway",
+                    "Home office",
+                    "Outdoor",
+                    "Other",
+                  ].map((room) => (
+                    <option key={room}>{room}</option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                SKU
+                <input
+                  value={draft.sku}
+                  onChange={(e) => set("sku", e.target.value)}
+                  maxLength={40}
+                  placeholder="e.g. NLH-CLD-03"
+                />
+              </label>
+            </div>
+            <label>
+              Materials
+              <input
+                value={draft.material}
+                onChange={(e) => set("material", e.target.value)}
+                maxLength={240}
+                placeholder="e.g. Linen upholstery · oak frame"
+              />
+            </label>
+            <label>
+              Care instructions
+              <textarea
+                value={draft.care}
+                onChange={(e) => set("care", e.target.value)}
+                rows={2}
+                maxLength={500}
+                placeholder="How should the buyer care for it?"
               />
             </label>
             <label className="checkbox-label">

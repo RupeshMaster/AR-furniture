@@ -8,6 +8,7 @@ import {
   eventTypes,
   validateEvent,
   summarizeAnalytics,
+  mergeDemoCatalog,
 } from "./data";
 
 export const isDemo = !import.meta.env.VITE_POCKETBASE_URL;
@@ -47,10 +48,40 @@ async function storage(key, value) {
     tx.onabort = tx.onerror;
   });
 }
-async function init() {
-  if (!(await storage("products"))) await storage("products", demoProducts);
-  if (!(await storage("leads"))) await storage("leads", []);
-  if (!(await storage("events"))) await storage("events", []);
+let initPromise;
+function init() {
+  return (initPromise ||= openDB()
+    .then(
+      (db) =>
+        new Promise((resolve, reject) => {
+          // One transaction also prevents two open tabs from applying the upgrade twice.
+          const tx = db.transaction("data", "readwrite");
+          const data = tx.objectStore("data");
+          const products = data.get("products");
+          const seeded = data.get("seededProductIds");
+          const leads = data.get("leads");
+          const events = data.get("events");
+          events.onsuccess = () => {
+            const next = mergeDemoCatalog(products.result, seeded.result);
+            data.put(next.products, "products");
+            data.put(next.seededIds, "seededProductIds");
+            if (leads.result === undefined) data.put([], "leads");
+            if (events.result === undefined) data.put([], "events");
+          };
+          tx.oncomplete = resolve;
+          tx.onerror = () =>
+            reject(
+              new Error(
+                "Could not update the demo catalog. Check available browser storage.",
+              ),
+            );
+          tx.onabort = tx.onerror;
+        }),
+    )
+    .catch((error) => {
+      initPromise = undefined;
+      throw error;
+    }));
 }
 
 function anonymousSession() {
@@ -180,6 +211,12 @@ export const api = {
       "height",
       "availability",
       "delivery",
+      "room",
+      "sku",
+      "material",
+      "care",
+      "leadTime",
+      "sample",
       "published",
       "variants",
     ];

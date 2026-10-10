@@ -31,12 +31,15 @@ showroom tags. Clear site storage to reset the demo.
 
 - Published catalog, search/filter, stable product-ID links, unknown-product state
 - Photo-first rendering; 3D library and models load only after user interaction
-- Original scale-correct sample sofa, chair, and table GLBs with Draco compression
-  and `KHR_materials_variants`; no model reload when changing a finish
+- Nine original scale-correct sample models across sofas, chairs, tables, storage,
+  a bed, and an ottoman, all with Draco compression and
+  `KHR_materials_variants`; no model reload when changing a finish
 - Embedded material variants or runtime hex-color mapping to named materials
 - Floor-placement AR with fixed model scale, supported-device fallback messaging
 - Inquiry/reservation capture with selected finish and `qr`/`catalog` attribution
 - Merchant product creation, editing, deletion, publishing, dimensions and pricing
+- Complete demo product metadata: SKU, room, materials, care, availability,
+  lead time, dimensions, and finish-specific swatches
 - Product photo, GLB, and optional USDZ uploads; model/material inspection preview
 - Real QR generation, PNG downloads, and selected-finish sharing
 - Lead detail, five pipeline statuses, persistent updates, filtered CSV export
@@ -50,7 +53,9 @@ showroom tags. Clear site storage to reset the demo.
 The visuals and prices in the demo are fictional. The sample GLBs are simple
 procedural representations, not photorealistic retailer assets. Asset generation
 source is in `scripts/generate-models.mjs` and may be rerun with
-`npm run assets:generate`. These original models and illustrations are CC0.
+`npm run assets:generate`. Poster PNGs for PocketBase seeding can be rebuilt with
+`npm run assets:posters` after installing Playwright's browser dependencies. These
+original models and illustrations are CC0.
 
 ## Live PocketBase setup
 
@@ -66,7 +71,8 @@ chmod +x backend/pocketbase
 ```
 
 The migrations create `stores`, `merchants`, `products`, `leads`, `events`, and
-`notification_outbox`. Follow the initial superuser setup link printed by
+`notification_outbox`, including product metadata fields for room, SKU,
+materials, care, and lead time. Follow the initial superuser setup link printed by
 PocketBase. Its admin dashboard is `http://127.0.0.1:8090/_/`.
 
 Create a store in that dashboard with slug `northline-home`. Create a **merchants**
@@ -85,9 +91,11 @@ export MERCHANT_PASSWORD='your-merchant-password'
 npm run seed
 ```
 
-The seed is idempotent and does not overwrite existing records. Sample products
-start unpublished; add a real photo before publishing. Do not use the sample
-model for a different real product.
+The seed is idempotent and does not overwrite existing records. It attaches the
+fictional poster PNG and GLB for all nine sample products, but leaves them
+unpublished for merchant review. Replace the sample assets and copy before
+publishing a real store catalog. Do not use a sample model for a different real
+product.
 
 Create `.env.local` using `.env.example` as a reference:
 

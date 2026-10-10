@@ -11,6 +11,7 @@
     "test:backend": "node --test tests/backend.test.mjs",
     "test:e2e": "npm run build && playwright test",
     "assets:generate": "node scripts/generate-models.mjs",
+    "assets:posters": "node scripts/generate-posters.mjs",
     "seed": "node scripts/seed-pocketbase.mjs",
     "format": "prettier --write src scripts tests backend/pb_hooks backend/pb_migrations *.js *.json *.html"
   },

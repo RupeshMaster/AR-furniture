@@ -33,21 +33,17 @@ async function existing(collection, id) {
 const store =
   (await existing("stores", demoStore.id)) ||
   (await pb.collection("stores").create(demoStore));
-const users = await pb
-  .collection("merchants")
-  .getFullList({
-    filter: pb.filter("email = {:email}", { email: MERCHANT_EMAIL }),
-  });
+const users = await pb.collection("merchants").getFullList({
+  filter: pb.filter("email = {:email}", { email: MERCHANT_EMAIL }),
+});
 if (!users.length)
-  await pb
-    .collection("merchants")
-    .create({
-      email: MERCHANT_EMAIL,
-      password: MERCHANT_PASSWORD,
-      passwordConfirm: MERCHANT_PASSWORD,
-      name: "Store owner",
-      store: store.id,
-    });
+  await pb.collection("merchants").create({
+    email: MERCHANT_EMAIL,
+    password: MERCHANT_PASSWORD,
+    passwordConfirm: MERCHANT_PASSWORD,
+    name: "Store owner",
+    store: store.id,
+  });
 for (const p of demoProducts) {
   if (await existing("products", p.id)) continue;
   const body = new FormData();
@@ -63,12 +59,33 @@ for (const p of demoProducts) {
     "height",
     "availability",
     "delivery",
+    "room",
+    "sku",
+    "material",
+    "care",
+    "leadTime",
   ])
     body.set(key, p[key]);
   body.set("store", store.id);
   body.set("variants", JSON.stringify(p.variants));
-  // The sample seed remains draft until the merchant adds a product photo.
+  // All assets are attached, but sample listings need merchant review to publish.
   body.set("published", "false");
+  body.set("sample", "true");
+  body.set(
+    "photo",
+    new Blob(
+      [
+        await readFile(
+          new URL(
+            `../public${p.image.replace(/\.svg$/, ".png")}`,
+            import.meta.url,
+          ),
+        ),
+      ],
+      { type: "image/png" },
+    ),
+    `${p.id}.png`,
+  );
   body.set(
     "glb",
     new Blob(
@@ -80,5 +97,5 @@ for (const p of demoProducts) {
   await pb.collection("products").create(body);
 }
 console.log(
-  "Store and merchant provisioned. Three sample drafts are ready; upload photos and review them before publishing.",
+  `Store and merchant provisioned. Catalog contains ${demoProducts.length} sample listings; existing products were preserved. Review drafts before publishing.`,
 );

@@ -109,6 +109,12 @@ test(
         height: 80,
         availability: "In stock",
         published: false,
+        room: "Living room",
+        sku: "PILOT-001",
+        material: "Linen upholstery · oak frame",
+        care: "Spot clean",
+        leadTime: "4–6 weeks",
+        sample: true,
       };
       for (const [k, v] of Object.entries(product)) body.set(k, v);
       body.set(
@@ -149,6 +155,8 @@ test(
         throw new Error(JSON.stringify(e.response) + "\n" + logs);
       }
       assert.ok(p.glb);
+      assert.equal(p.sku, "PILOT-001");
+      assert.equal(p.sample, true);
       assert.equal(
         (await visitor.collection("products").getList(1, 50)).items.length,
         0,

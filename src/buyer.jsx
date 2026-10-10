@@ -358,7 +358,9 @@ export function ProductPage({ id, onToast }) {
             <div>
               <strong>Make sure it feels right.</strong>
               <span>
-                The showroom can help with finishes, sizing, and delivery.
+                {product.leadTime
+                  ? `${product.availability} · ${product.leadTime} · The showroom can confirm delivery.`
+                  : "The showroom can help with finishes, sizing, and delivery."}
               </span>
             </div>
           </div>
@@ -406,6 +408,24 @@ export function ProductPage({ id, onToast }) {
               {tab === "Details" && (
                 <>
                   <p>{product.description}</p>
+                  <div className="spec-grid product-specs">
+                    <span>
+                      <small>Room</small>
+                      <strong>{product.room || product.category}</strong>
+                    </span>
+                    <span>
+                      <small>Materials</small>
+                      <strong>{product.material || "Ask the showroom"}</strong>
+                    </span>
+                    <span>
+                      <small>Care</small>
+                      <strong>{product.care || "Ask the showroom"}</strong>
+                    </span>
+                    <span>
+                      <small>SKU</small>
+                      <strong>{product.sku || "Available from store"}</strong>
+                    </span>
+                  </div>
                   {product.sample && (
                     <p className="sample-note">
                       This is a demonstration listing with an original,
@@ -425,10 +445,16 @@ export function ProductPage({ id, onToast }) {
                 </div>
               )}
               {tab === "Delivery" && (
-                <p>
-                  {product.delivery ||
-                    "Contact the showroom to confirm delivery pricing and lead times."}
-                </p>
+                <>
+                  <p className="delivery-estimate">
+                    {product.leadTime &&
+                      `Estimated lead time: ${product.leadTime}`}
+                  </p>
+                  <p>
+                    {product.delivery ||
+                      "Contact the showroom to confirm delivery pricing and lead times."}
+                  </p>
+                </>
               )}
             </div>
           </div>
